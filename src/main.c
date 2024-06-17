@@ -8,6 +8,7 @@
 #include "hush.h"
 #include <string.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 int main() {
 
@@ -54,7 +55,13 @@ int main() {
                     directory = getenv("PWD");
                 }
             } else {
+                int standardOut = fileWrite((const char **)argv);
                 runCommand((const char **)argv);
+
+                if (dup2(standardOut, STDOUT_FILENO) == -1) {
+                    perror("dup2");
+                    exit(1);
+                }
             }
         }
     }
