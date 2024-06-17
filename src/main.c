@@ -12,9 +12,13 @@
 
 int main() {
 
+    signal(SIGINT, SIG_IGN);
+
+    setenv("SHELL", "hush", 1);
     char *name = getenv("USER");
     char *host = getenv("HOST");
-    char *directory = getenv("PWD");
+    char dirBuf[2048];
+    char *directory = getcwd(dirBuf, 2048);
 
     if (name == NULL) {
         name = "?";
@@ -51,8 +55,8 @@ int main() {
                     if (chdir(argv[1])) {
                         perror(argv[1]);
                     }                    
-                    setenv("PWD", argv[1], 1);
-                    directory = getenv("PWD");
+                    setenv("PWD", getcwd(dirBuf, 2048), 1);
+                    directory = getcwd(dirBuf, 2048);;
                 }
             } else {
                 int standardOut = fileWrite((const char **)argv);
