@@ -52,6 +52,7 @@ int main() {
         argv[i] = NULL;
 
         if (argv[0] != NULL) {
+            translateSymbols((const char **)argv);
             if (strcmp(argv[0], "exit") == 0) {
                 return (argv[1]) ? atoi(argv[1]) : 0;
             } else if (strcmp(argv[0], "cd") == 0) {
@@ -71,6 +72,7 @@ int main() {
                     perror("dup2");
                     exit(1);
                 }
+                
             }
         }
     }
