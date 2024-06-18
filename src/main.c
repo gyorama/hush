@@ -11,8 +11,9 @@
 #include <sys/stat.h>
 
 int main() {
-
     signal(SIGINT, SIG_IGN);
+    signal(SIGQUIT, exit);
+    signal(SIGTERM, exit);
 
     setenv("SHELL", "hush", 1);
     char *name = getenv("USER");
@@ -32,7 +33,10 @@ int main() {
 
     char *argv[128];
 
+    printf("\033[0;32mNote: please don't press CTRL+D\n \033[0m\n");
+
     while (1) {
+
         // I'm sorry
         printf("\033[1m\033[34m%s\033[0m@\033[35m\033[1m%s \033[32m%s\n\033[0m& ", name, host, directory);
         fflush(stdout);

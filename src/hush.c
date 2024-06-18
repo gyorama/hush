@@ -13,7 +13,10 @@ void runCommand(const char *argv[]) {
 
     if (pid == 0) {
         signal(SIGINT, exit);
-        execvp(argv[0], (char * const *)argv);
+        if (execvp(argv[0], (char * const *)argv) == -1) {
+            perror(argv[0]);
+            exit(1);
+        }
     } else if (pid > 0) {
         waitpid(pid, NULL, 0);
     } else if (pid == -1) {
