@@ -65,8 +65,17 @@ void checkForEnvironmentVariables(const char *argv[]) {
 
 void translateSymbols(const char *argv[]) {
     for (int i = 0; argv[i] != NULL; i++) {
-        if (argv[i][0] == '~') {
+        switch (argv[i][0]) {
+        case '~':
             argv[i] = getenv("HOME");
+            break;
+
+        case '*':
+            argv[i] = getenv("PWD");
+            break;
+        
+        default:
+            break;
         }
     }
     
