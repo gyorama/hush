@@ -46,3 +46,19 @@ int fileWrite(const char *argv[]) {
 
     return 0;
 }
+
+void checkForEnvironmentVariables(const char *argv[]) {
+    for (int i = 1; argv[i] != NULL; i++) {
+        if (argv[i][0] == '$') {
+            argv[i]++;
+            char *environmentVariable = getenv(argv[i]);
+
+            if (environmentVariable != NULL) {
+                argv[i] = environmentVariable;
+                return;
+            } else {
+                argv[i] = "";
+            }
+        }
+    }
+}

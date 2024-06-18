@@ -63,6 +63,7 @@ int main() {
                     directory = getcwd(dirBuf, 2048);;
                 }
             } else {
+                checkForEnvironmentVariables((const char **)argv);
                 int standardOut = fileWrite((const char **)argv);
                 runCommand((const char **)argv);
 
