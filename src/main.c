@@ -11,8 +11,6 @@ int main(int argc, char *args[]) {
     signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, exit);
     signal(SIGTERM, exit);
-
-    setenv("SHELL", "hush", 1);
     char *name = getenv("USER");
     char *host = getenv("HOST");
     char dirBuf[2048];
@@ -59,6 +57,9 @@ int main(int argc, char *args[]) {
             token = strtok(NULL, " \t\n");
         }
         argv[i] = NULL;
+        if (argv[0][0] == '#') {
+            continue;
+        }
 
         if (argv[0] != NULL) {
             translateSymbols((const char **)argv);

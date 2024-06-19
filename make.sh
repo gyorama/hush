@@ -1,7 +1,3 @@
-if [ ! -d "build" ]; then
-    mkdir build
-fi
-
 gcc -O3 -Wall -Wextra -FPIC -c src/hush.c -o build/hush.o
 ar rcs build/libhush.a build/hush.o
 
