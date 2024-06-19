@@ -40,7 +40,11 @@ int main() {
         // I'm sorry
         printf("\033[1m\033[34m%s\033[0m@\033[35m\033[1m%s \033[32m%s\n\033[0m& ", name, host, directory);
         fflush(stdout);
-        fgets(buffer, sizeof(buffer) - 1, stdin);
+        int inputStatus = fgets(buffer, sizeof(buffer) - 1, stdin) != NULL;
+
+        if (!inputStatus) {
+            exit(0);
+        }
 
         char *token;
         int i = 0;
