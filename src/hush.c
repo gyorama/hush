@@ -67,7 +67,6 @@ void translateSymbols(const char *argv[]) {
     for (int i = 0; argv[i] != NULL; i++) {
         switch (argv[i][0]) {
         case '~':
-            argv[i] = strcat(getenv("HOME"), argv[i] +1);
             break;
 
         case '*':

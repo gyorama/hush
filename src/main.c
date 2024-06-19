@@ -74,9 +74,11 @@ int main(int argc, char *args[]) {
                     directory = getcwd(dirBuf, 2048);;
                 }
             } else {
+                char *curDir = directory;
                 checkForEnvironmentVariables((const char **)argv);
                 int standardOut = fileWrite((const char **)argv);
                 runCommand((const char **)argv);
+                chdir(curDir);
 
                 if (dup2(standardOut, STDOUT_FILENO) == -1) {
                     perror("dup2");
