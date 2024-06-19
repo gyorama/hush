@@ -1,16 +1,13 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <sys/types.h>
-#include <sys/user.h>
-#include <sys/wait.h>
 #include <signal.h>
 #include "hush.h"
 #include <string.h>
 #include <stdlib.h>
-#include <sys/stat.h>
+#include <stdbool.h>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *args[]) {
     signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, exit);
     signal(SIGTERM, exit);
@@ -20,12 +17,14 @@ int main(int argc, char *argv[]) {
     char *host = getenv("HOST");
     char dirBuf[2048];
     char *directory = getcwd(dirBuf, 2048);
+    bool isAFile = false;
 
     if (argc > 1) {
-        if (dup2(open(argv[1], O_RDONLY), STDIN_FILENO) == -1) {
+        if (dup2(open(args[1], O_RDONLY), STDIN_FILENO) == -1) {
             perror("dup2");
             exit(1);
         }
+        isAFile = true;
     }
 
     if (name == NULL) {
@@ -42,11 +41,12 @@ int main(int argc, char *argv[]) {
 
     while (1) {
 
-        // I'm sorry
-        printf("\033[1m\033[34m%s\033[0m@\033[35m\033[1m%s \033[32m%s\n\033[0m& ", name, host, directory);
-        fflush(stdout);
+        if (!isAFile) {// I'm sorry
+            printf("\033[1m\033[34m%s\033[0m@\033[35m\033[1m%s \033[32m%s\n\033[0m& ", name, host, directory);
+            fflush(stdout);
+        }
         int inputStatus = fgets(buffer, sizeof(buffer) - 1, stdin) != NULL;
-
+        
         if (!inputStatus) {
             exit(0);
         }
