@@ -8,7 +8,7 @@
 #include <stdbool.h>
 
 int main(int argc, char *args[]) {
-    signal(SIGINT, SIG_IGN);
+    signal(SIGINT, exit);
     signal(SIGQUIT, exit);
     signal(SIGTERM, exit);
     char *name = getenv("USER");
