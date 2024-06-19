@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
-int main() {
+int main(int argc, char *argv[]) {
     signal(SIGINT, SIG_IGN);
     signal(SIGQUIT, exit);
     signal(SIGTERM, exit);
@@ -20,6 +20,13 @@ int main() {
     char *host = getenv("HOST");
     char dirBuf[2048];
     char *directory = getcwd(dirBuf, 2048);
+
+    if (argc > 1) {
+        if (dup2(open(argv[1], O_RDONLY), STDIN_FILENO) == -1) {
+            perror("dup2");
+            exit(1);
+        }
+    }
 
     if (name == NULL) {
         name = "?";
@@ -32,8 +39,6 @@ int main() {
     char buffer[2048];
 
     char *argv[128];
-
-    printf("\033[0;32mNote: please don't press CTRL+D\n \033[0m\n");
 
     while (1) {
 
